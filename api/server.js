@@ -1,7 +1,10 @@
 /***** BUILD YOUR SERVER HERE *****/
 
-// 1. Import Express from node_modules
+// 1a. Import Express from node_modules
 const express = require('express')
+
+// 1b. Import helper functions from module.exports
+const User = require('./users/model')
 
 // 2. Initialize web server
 const server = express()
@@ -10,12 +13,18 @@ const server = express()
 server.use(express.json())
 
 // 4. Build Endpoints
-server.use('/api/users', (req, res) => {
-  res.status(200).json({ message: 'API Users' })
+server.get('/api/users', (req, res) => {
+
+  User.find()
+    .then(users => {
+      console.log('GET all the users')
+
+      res.status(200).json(users)
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
-
-
-
 
 
 // EXPORT YOUR SERVER instead of {}
