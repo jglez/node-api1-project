@@ -44,9 +44,19 @@ server.get('/api/users/:id', (req, res) => {
 })
 
 server.post('/api/users', (req, res) => {
-  const newUser = req
 
-  console.log(newUser)
+  const newUser = req.body
+
+  User.insert(newUser)
+    .then(user => {
+      res.status(200).json(user)
+
+      console.log(newUser)
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
+
 })
 
 
