@@ -32,11 +32,21 @@ server.get('/api/users/:id', (req, res) => {
 
   User.findById(id)
     .then(user => {
-      res.status(200).json(user)
+      if (!user) {
+        res.status(404).json({ message: `User with id ${id} not found` })
+      } else {
+        res.status(200).json(user)
+      }
     })
     .catch(err => {
       res.status(500).json({ message: err.message })
     })
+})
+
+server.post('/api/users', (req, res) => {
+  const newUser = req
+
+  console.log(newUser)
 })
 
 
